@@ -1,16 +1,63 @@
+import { signOut } from "firebase/auth";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
-import logo from "../../../Images/logo/logo.png"
+import auth from "../../../firebase.int";
+import logo from "../../../Images/logo/logo.png";
+import Loading from "../Loading/Loading";
 
 const Header = () => {
+  const [user, error] = useAuthState(auth);
 
-    const mainMenu = <>
-        <li><Link className="text-white hover:text-secondary text-base md:font-bold" to="/">Home</Link></li>
-        <li><Link className="text-white hover:text-secondary text-base md:font-bold" to="/about">About</Link></li>
-        <li><Link className="text-white hover:text-secondary text-base md:font-bold" to="/contact">Contact</Link></li>
-        <li><Link className="text-white hover:text-secondary text-base md:font-bold" to="/blog">Blog</Link></li>
-        <li><Link className="text-white hover:text-secondary text-base md:font-bold" to="/login">Login</Link></li>
+  if (error) {
+    return (
+      <div>
+        <p className="text-error">Error: {error}</p>
+      </div>
+    );
+  }
+
+  const logout = () => {
+    signOut(auth);
+  };
+
+  const mainMenu = (
+    <>
+      <li>
+        <Link
+          className="text-white hover:text-secondary text-base md:font-bold"
+          to="/"
+        >
+          Home
+        </Link>
+      </li>
+      <li>
+        <Link
+          className="text-white hover:text-secondary text-base md:font-bold"
+          to="/about"
+        >
+          About
+        </Link>
+      </li>
+      <li>
+        <Link
+          className="text-white hover:text-secondary text-base md:font-bold"
+          to="/contact"
+        >
+          Contact
+        </Link>
+      </li>
+      <li>
+        <Link
+          className="text-white hover:text-secondary text-base md:font-bold"
+          to="/blog"
+        >
+          Blog
+        </Link>
+      </li>
+      <li></li>
     </>
+  );
   return (
     <div className="">
       <div class="navbar bg-primary">
@@ -36,38 +83,81 @@ const Header = () => {
               tabindex="0"
               class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
-             {mainMenu}
+              {mainMenu}
             </ul>
           </div>
-          <Link to="/" class=""><img src={logo} alt="" /></Link>
+          <Link to="/" class="">
+            <img src={logo} alt="" />
+          </Link>
         </div>
         <div class="navbar-center hidden lg:flex">
-          <ul class="menu menu-horizontal p-0">
-          {mainMenu}
-          </ul>
-          
+          <ul class="menu menu-horizontal p-0">{mainMenu}</ul>
         </div>
         <div class="navbar-end md:flex-row gap-3">
-        <div class="form-control">
-        <input type="text" placeholder="Type here" class="input input-bordered input-secondary w-full max-w-xs" />
-    </div>
-    <div class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-ghost btn-circle avatar ">
-        <div class="w-10 rounded-full">
-          <img src="https://placeimg.com/80/80/people" />
-        </div>
-      </label>
-      <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-        <li>
-          <a class="justify-between">
-            Profile
-            <span class="badge">New</span>
-          </a>
-        </li>
-        <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
-      </ul>
-    </div>
+          <div class="form-control">
+            <input
+              type="text"
+              placeholder="Type here"
+              class="input input-bordered input-secondary w-full max-w-xs"
+            />
+          </div>
+          {
+            user ? (
+              <div class="dropdown dropdown-end">
+                <label
+                  tabindex="0"
+                  class="btn btn-ghost btn-circle btn-white avatar "
+                >
+                  <div class="w-10 rounded-full">
+                    <img src="https://placeimg.com/80/80/people" />
+                  </div>
+                </label>
+                <ul
+                  tabindex="0"
+                  class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 text-secondary"
+                >
+                  <li>
+                    <a class="justify-between">
+                      Profile
+                      <span class="badge">New</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a>Settings</a>
+                  </li>
+                  <li>
+                    <a onClick={logout}>Logout</a>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div class="dropdown dropdown-end">
+                <label tabindex="1" class="btn btn-ghost btn-circle avatar ">
+                  <div class="w-10 rounded-full">
+                    <img src="https://img.icons8.com/fluency-systems-filled/48/000000/user.png" />
+                  </div>
+                </label>
+                <ul
+                  tabindex="1"
+                  class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 text-secondary"
+                >
+                  <li>
+                    <Link to="/login" class="justify-between">
+                      Login
+                    </Link>
+                  </li>
+                  <hr />
+                  <li>
+                    <a href="#">Language</a>
+                  </li>
+                  <li>
+                    <a href="#">Currency</a>
+                  </li>
+                </ul>
+              </div>
+            )
+
+          }
         </div>
       </div>
     </div>
