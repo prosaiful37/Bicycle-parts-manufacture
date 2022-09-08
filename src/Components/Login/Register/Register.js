@@ -1,8 +1,47 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useCreateUserWithEmailAndPassword, useUpdateProfile } from "react-firebase-hooks/auth";
+import { Link, useNavigate } from "react-router-dom";
+import auth from "../../../firebase.int";
+import UseUser from "../../../Hooks/UseUser";
+import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Register = () => {
+  const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile, uperror] = useUpdateProfile(auth);
+  const navigate = useNavigate();
+  const [users] = UseUser(user)
+
+  if (error || uperror) {
+    return (
+      <div>
+        <p className="text-error">Error: {error.message || uperror.message}</p>
+      </div>
+    );
+  }
+  if (loading) {
+    return <Loading></Loading>;
+  }
+  if (users) {
+    navigate("/");
+  }
+
+//   handle from
+  const handleFrom = async(event) => {
+    event.preventDefault();
+
+    const name = event.target.name.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+
+    createUserWithEmailAndPassword(email, password);
+    await updateProfile({ displayName : name });
+
+
+  };
+
+
+
   return (
     <div class="relative">
       <img
@@ -44,14 +83,14 @@ const Register = () => {
                   Sign up for updates
                 </h3>
 
-                <form>
+                <form onSubmit={handleFrom}>
                   <div class="mb-1 sm:mb-2">
                     <label for="name" class="inline-block mb-1 font-medium">
                       Name
                     </label>
                     <input
                       placeholder="John doe"
-                      required=""
+                      required
                       type="text"
                       class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                       id="name"
@@ -64,7 +103,7 @@ const Register = () => {
                     </label>
                     <input
                       placeholder="john.doe@example.org"
-                      required=""
+                      required
                       type="email"
                       class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                       id="email"
@@ -77,7 +116,7 @@ const Register = () => {
                     </label>
                     <input
                       placeholder="password"
-                      required=""
+                      required
                       type="password"
                       class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                       id="password"

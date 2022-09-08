@@ -1,8 +1,63 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import auth from "../../../firebase.int";
+import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
+    const [sendPasswordResetEmail, sending, Rerror] = useSendPasswordResetEmail(
+        auth
+      );
+    const navigate = useNavigate();
+    const location = useLocation();
+
+
+
+
+    let from = location.state?.from?.pathname || "/";
+
+    // form validation
+    if (error || Rerror) {
+        return (
+          <div>
+            <p className="text-error">Error: {error.message || Rerror.message}</p>
+          </div>
+        );
+      }
+      if (loading) {
+        return <Loading></Loading>;
+      }
+      if (user) {
+        navigate(from, { replace: true });
+      }
+
+
+      if (sending) {
+        return <p>Sending...</p>;
+      }
+
+
+
+    //   handle login form
+    const handleLogin = event => {
+        event.preventDefault();
+        let email = event.target.email.value;
+        const password = event.target.password.value;
+        signInWithEmailAndPassword(email, password)
+    }
+    
+
+    // password reset
+    const resetPassword = async() => {
+        let email;
+        await sendPasswordResetEmail(email);
+          alert('Sent email');
+    }
+    
+
   return (
     <div class="relative">
       <img
@@ -45,14 +100,14 @@ const Login = () => {
                   Please Login
                 </h3>
 
-                <form>
+                <form onSubmit={handleLogin}>
                   <div class="mb-1 sm:mb-2">
                     <label for="email" class="inline-block mb-1 font-medium">
                       E-mail
                     </label>
                     <input
                       placeholder="john.doe@example.org"
-                      required=""
+                      required
                       type="email"
                       class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                       id="email"
@@ -65,7 +120,7 @@ const Login = () => {
                     </label>
                     <input
                       placeholder="password"
-                      required=""
+                      required
                       type="password"
                       class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                       id="password"
@@ -73,13 +128,16 @@ const Login = () => {
                     />
                   </div>
                   <label class="label">
-                    <a href="#" class="label-text-alt link link-hover">
+                    <a onClick={resetPassword} href="#" class="label-text-alt link link-hover">
                       Forgot password?
                     </a>
                   </label>
-                  <Link to="/register" class="label-text-alt link link-hover hover:text-primary">
-                      Are You new in dotbike please signup!
-                    </Link>
+                  <Link
+                    to="/register"
+                    class="label-text-alt link link-hover hover:text-primary"
+                  >
+                    Are You new in dotbike please signup!
+                  </Link>
                   <div class="mt-4 mb-2 sm:mb-4">
                     <button
                       type="submit"
@@ -88,9 +146,8 @@ const Login = () => {
                       Sign In
                     </button>
                   </div>
-                 
                 </form>
-                
+
                 <div class="divider">Or Continue with</div>
                 <SocialLogin></SocialLogin>
               </div>

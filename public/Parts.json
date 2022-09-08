@@ -2,61 +2,67 @@
     
     
     {
+        
         "name" : "Dot bike classic ball-XR256",
         "img" : "https://i.ibb.co/1Lgjh4c/27-large-default.jpg",
         "description" : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout",
         "minOrder" : 2,
-        "quantity" : 23,
+        "quantity" : 2,
         "availableQuantity" : 25,
         "price" : 21
     
     },
     {
+        
         "name" : "Dot bike Modern Wheels-Mr-454",
         "img" : "https://prestashoptheme.in/prs/PRS713/img/p/5/9/59-large_default.jpg",
         "description" : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout",
         "minOrder" : 2,
-        "quantity" : 10,
+        "quantity" : 2,
         "availableQuantity" : 14,
         "price" : 11
     
     },
     {
+        
         "name" : "Dot bike Classic Handlebars -ML-545",
         "img" : "https://i.ibb.co/Q6x58Jw/75-large-default.jpg",
         "description" : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout",
         "minOrder" : 2,
-        "quantity" : 15,
+        "quantity" : 2,
         "availableQuantity" : 33,
         "price" : 85
     
     },
     {
+        
         "name" : "Dot bike Modern Sits -MXB-545",
         "img" : "https://i.ibb.co/z7T1Sbh/76-large-default.jpg",
         "description" : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout",
         "minOrder" : 2,
-        "quantity" : 17,
+        "quantity" :2,
         "availableQuantity" : 14,
         "price" : 51
     
     },
     {
+        
         "name" : "Dot bike Modern Helmets -NXD-78",
         "img" : "https://i.ibb.co/DQY61NX/77-large-default.jpg",
         "description" : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout",
         "minOrder" : 2,
-        "quantity" : 11,
+        "quantity" : 2,
         "availableQuantity" : 14,
         "price" : 65
     
     },
     {
+        
         "name" : "Dot bike Modern Brake levers -NXD-79",
         "img" : "https://prestashoptheme.in/prs/PRS713/img/p/2/5/25-large_default.jpg",
         "description" : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout",
         "minOrder" : 2,
-        "quantity" : 16,
+        "quantity" :2,
         "availableQuantity" : 10,
         "price" : 21
     

@@ -5,7 +5,7 @@ import icon3 from "../../../Images/social/github.png";
 import { useSignInWithFacebook, useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from "../../../firebase.int";
 import Loading from "../../Shared/Loading/Loading";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SocialLogin = () => {
     const [signInWithGoogle, guser, gloading, gerror] = useSignInWithGoogle(auth);
@@ -13,6 +13,12 @@ const SocialLogin = () => {
     const [signInWithGithub, gituser, gitloading, giterror] = useSignInWithGithub(auth);
 
     const navigate = useNavigate(); 
+    const location = useLocation();
+
+
+
+    
+    let from = location.state?.from?.pathname || "/";
 
     if (gerror || ferror ||  giterror ) {
         return (
@@ -26,7 +32,7 @@ const SocialLogin = () => {
       }
 
       if (guser || fuser || gituser) {
-        navigate('/');
+        navigate(from, { replace: true });
       }
 
   return (
